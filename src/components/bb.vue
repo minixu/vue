@@ -1,5 +1,7 @@
 <template>
-  <div> bb components!</div>
+  <div> bb components!
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>

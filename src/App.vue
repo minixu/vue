@@ -1,6 +1,23 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <!--路由注入节点-->
+    <router-view></router-view>
+    <!--命名视图-->
+    <router-view class="dd" name="dd"></router-view>
+    <router-view class="ee" name="ee"></router-view>
+    <router-link :to="{path:'/namespace'}">to namespace</router-link>
+    <!--路由切换-->
+    <!-- 通过传入 `to` 属性指定链接 -->
+    <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
+    <router-link :to="{path:'/bb/child'}">to bbchild</router-link>
+    <router-link :to="{path:'/cc/red'}">to cc</router-link>
+    <!--router-link几种写法-->
+    <!--to属性不动态时不需要使用:,""里如果不加''会指向data选项里的变量，/ee代表跳转到根路径下的ee，ee代表跳转到当前路径下的ee-->
+    <router-link to="'ee'">to ee</router-link>
+    <router-link :to="'/ee'">to ee</router-link>
+    <!--使用命名跳转路由，且节点设为li标签，默认a-->
+    <router-link :to="{name:'cc',params:{color:'red'}}" tag="li">to cc</router-link>
+
     <!--v-for指令-->
     <ul class="a">
       <li v-for="(item,index) in list" :key="index">{{item.name}}--{{item.price}}--{{index}}</li>
@@ -79,6 +96,12 @@
     <!--自定义指令-->
     <p v-css="{color:'red','font-size':'24px'}">hwllo word</p>
     <input v-focus>
+    <!--vuex实例-->
+    <div style="border:3px solid #000000">
+      <apple></apple>
+      <banana></banana>
+      <div>总价：{{totalPrice}}</div>
+    </div>
   </div>
 </template>
 <script>
@@ -86,11 +109,13 @@
   import aa from './components/aa'
   import bb from './components/bb'
   import cc from './components/cc'
+  import apple from './components/apple'
+  import banana from './components/banana'
 
   export default {
     name: 'app',
     components: {
-      hello, bb, aa, cc
+      hello, bb, aa, cc, apple, banana
     },
     data: function () {
       return {
@@ -134,7 +159,14 @@
       myValueWithoutNum: function () {
         // return Date.now()
         return this.myinputval.replace(/\d/g, '')
+      },
+      totalPrice: function () {
+        // console.log(this.$store.state)
+        // 以下两种方法都可以获得totalPrice
+        // return this.$store.getters.getTotal
+        return this.$store.state.totalPrice
       }
+
     },
     methods: {
       // 区别于computed中的方法，该方法调用不受限制

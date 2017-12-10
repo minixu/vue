@@ -1,5 +1,5 @@
 <template>
-  <div>cc components!</div>
+  <div>cc components!{{$route.params.color}}</div>
 </template>
 
 <script>
